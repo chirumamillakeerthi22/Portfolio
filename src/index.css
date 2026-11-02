@@ -1,0 +1,218 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource/instrument-serif/latin-400.css';
+@import '@fontsource/instrument-serif/latin-400-italic.css';
+
+/*
+  Theme tokens. Both themes are designed separately (not inverted):
+  light is warm paper with deep teal ink, dark is graphite with a softer mint accent.
+  Every component reads these variables through the Tailwind colours below.
+*/
+:root,
+[data-theme='light'] {
+  --bg: #f6f5f1;
+  --bg-elev: #ffffff;
+  --bg-sunken: #eeece6;
+  --fg: #16181c;
+  --fg-muted: #4f545c;
+  --fg-subtle: #5f646d;
+  --border: #e0ddd5;
+  --border-strong: #cbc7bd;
+  --accent: #12594f;
+  --accent-hover: #0c443c;
+  --accent-fg: #ffffff;
+  --accent-soft: #dcebe6;
+  --accent-ink: #0f4d44;
+  --signal: #b4561f;
+  --grid: rgba(22, 24, 28, 0.06);
+  --shadow-sm: 0 1px 2px rgba(22, 24, 28, 0.05);
+  --shadow-md: 0 1px 2px rgba(22, 24, 28, 0.04), 0 8px 24px -8px rgba(22, 24, 28, 0.12);
+  --shadow-lg: 0 2px 4px rgba(22, 24, 28, 0.05), 0 24px 56px -16px rgba(22, 24, 28, 0.22);
+  --backdrop: rgba(22, 24, 28, 0.38);
+  --nav-bg: rgba(246, 245, 241, 0.8);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: #0d0f12;
+  --bg-elev: #15181d;
+  --bg-sunken: #0a0b0e;
+  --fg: #ecedef;
+  --fg-muted: #a6abb3;
+  --fg-subtle: #878c95;
+  --border: #23272e;
+  --border-strong: #353a43;
+  --accent: #7fd8c6;
+  --accent-hover: #a2e6d8;
+  --accent-fg: #0b201c;
+  --accent-soft: #15302b;
+  --accent-ink: #8fe0d0;
+  --signal: #f0a46c;
+  --grid: rgba(236, 237, 239, 0.05);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.3), 0 24px 56px -16px rgba(0, 0, 0, 0.7);
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --nav-bg: rgba(13, 15, 18, 0.78);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-elev: var(--bg-elev);
+  --color-sunken: var(--bg-sunken);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-signal: var(--signal);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+  --shadow-soft: var(--shadow-md);
+  --shadow-lift: var(--shadow-lg);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    overflow-x: clip;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Colours ease only while the theme is being switched, not on every hover. */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 280ms ease,
+    border-color 280ms ease,
+    color 280ms ease,
+    fill 280ms ease,
+    stroke 280ms ease,
+    box-shadow 280ms ease !important;
+}
+
+/* Scroll reveal: content is visible by default and only animates once JS marks it. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Pipeline visual: packets travel along the edges. */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.edge-flow {
+  stroke-dasharray: 3 9;
+  animation: flow 1.4s linear infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    r: 7;
+    opacity: 0.55;
+  }
+  100% {
+    r: 16;
+    opacity: 0;
+  }
+}
+.node-pulse {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+/* Native <dialog> modal. */
+dialog.project-dialog {
+  background: transparent;
+  padding: 0;
+  margin: auto;
+  max-width: min(960px, calc(100vw - 1.5rem));
+  width: 100%;
+  max-height: calc(100dvh - 1.5rem);
+  border: 0;
+  color: var(--fg);
+  overflow: visible;
+}
+dialog.project-dialog::backdrop {
+  background: var(--backdrop);
+  backdrop-filter: blur(4px);
+}
+dialog.project-dialog[open] .dialog-panel {
+  animation: dialog-in 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+}
+
+/* Each featured project uses its own brand colour as a local accent. */
+.brand-scope {
+  --brand: var(--brand-l);
+}
+[data-theme='dark'] .brand-scope {
+  --brand: var(--brand-d);
+}
