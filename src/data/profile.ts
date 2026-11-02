@@ -22,7 +22,7 @@ export const person = {
   github: 'https://github.com/chirumamillakeerthi22',
   githubHandle: 'chirumamillakeerthi22',
   linkedin: 'https://www.linkedin.com/in/keerthi-chirumamilla-65b7a3226',
-  portfolio: 'https://portfolio-pied-pi-12.vercel.app',
+  portfolio: 'https://keerthichirumamilla.vercel.app',
 };
 
 export const resumes = [

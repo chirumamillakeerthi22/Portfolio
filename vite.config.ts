@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 // Fallback: the portfolio address printed on the current resume.
-const DEFAULT_SITE_URL = 'https://portfolio-pied-pi-12.vercel.app';
+const DEFAULT_SITE_URL = 'https://keerthichirumamilla.vercel.app';
 
 /** Injects the public site URL into index.html and emits robots.txt and sitemap.xml. */
 function siteMeta(siteUrl: string): Plugin {
